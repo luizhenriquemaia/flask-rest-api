@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 import os
@@ -18,3 +18,8 @@ db = SQLAlchemy(app)
 
 # init ma
 ma = Marshmallow(app)
+
+
+# blueprints
+from .products import bp_products
+app.register_blueprint(bp_products)
