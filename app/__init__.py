@@ -23,3 +23,5 @@ ma = Marshmallow(app)
 # blueprints
 from .products import bp_products
 app.register_blueprint(bp_products)
+from .authorization import bp_authorization
+app.register_blueprint(bp_authorization)

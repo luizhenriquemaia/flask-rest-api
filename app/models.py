@@ -8,14 +8,14 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(100), unique=True)
     password = db.Column(db.String(100), nullable=False)
-    fist_name = db.Column(db.String(100), nullable=False)
+    first_name = db.Column(db.String(100), nullable=False)
     last_name = db.Column(db.String(100), nullable=False)
 
 
-    def __init__(self, email, password, fist_name, last_name):
+    def __init__(self, email, password, first_name, last_name):
         self.email = email
         self.password = generate_password_hash(password)
-        self.fist_name = fist_name
+        self.first_name = first_name
         self.last_name = last_name
     
     def verify_password(self, password):

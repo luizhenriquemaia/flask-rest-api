@@ -5,7 +5,7 @@ from .models import User, Product
 class UserSerializer(ma.Schema):
     class Meta:
         model = User
-        fields = ('id', 'email', 'password', 'fist_name', 'last_name')
+        fields = ('id', 'email', 'password', 'first_name', 'last_name')
 
 
 class ProductSerializer(ma.Schema):
