@@ -13,6 +13,8 @@ marshmallow-sqlalchemy = "*"
 flask-migrate = "*"
 flask-script = "*"
 pytest = "*"
+werkzeug = "*"
+pymysql = "*"
 
 [requires]
 python_version = "3.7"

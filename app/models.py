@@ -1,21 +1,28 @@
 from app import app, db
 from flask_sqlalchemy import SQLAlchemy
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(100), unique=True)
-    password = db.Column(db.String(100))
-    fist_name = db.Column(db.String(100))
-    last_name = db.Column(db.String(100))
+    password = db.Column(db.String(100), nullable=False)
+    fist_name = db.Column(db.String(100), nullable=False)
+    last_name = db.Column(db.String(100), nullable=False)
 
 
     def __init__(self, email, password, fist_name, last_name):
         self.email = email
-        self.password = password
+        self.password = generate_password_hash(password)
         self.fist_name = fist_name
         self.last_name = last_name
+    
+    def verify_password(self, password):
+        return check_password_hash(self.password, password)
+    
+    def __str__(self):
+        return f"<User: {self.first_name} {self.last_name}>"
 
 
 class Product(db.Model):

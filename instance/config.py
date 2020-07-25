@@ -6,5 +6,5 @@ SECRET_KEY = 'verystrongsecretkey'
 basedir = os.path.abspath(os.path.dirname("app"))
 
 # database
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'db.sqlite')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:root@localhost/system_verzel'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
