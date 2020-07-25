@@ -1,4 +1,4 @@
-from . import db
+from app import app, db
 from flask import Blueprint, request, jsonify, Response
 from .models import Product
 from .serializer import ProductSerializer
@@ -19,8 +19,8 @@ def list_products():
         return jsonify(result), 204
 
 
-@bp_products.route('/api/product', methods=['GET', 'POST', 'DELETE', 'PUT'])
-def product_api():
+@bp_products.route('/api/product', methods=['POST'])
+def add_product():
     serializer = ProductSerializer(many=False)
 
     if request.method == 'POST':
@@ -31,12 +31,27 @@ def product_api():
             new_product = Product(
                 name, description, price
             )
-            db.session.add(new_product)
-            db.session.commit()
-            return Response(response={'data': new_product, 'message': "created"}, status=201)
+            #db.session.add(new_product)
+            #db.session.commit()
+            response_json = jsonify(
+                data=serializer.dump(new_product),
+                message="created"
+            )
+            return response_json, 201
         else:
-            return Response(response={'data': '', 'message': "bad request"}, status=404)
-    
-    #elif request.method == 'GET':
+            return "the request data must be json type", 404
+
+@bp_products.route('/api/product/<id>', methods=['GET', 'DELETE', 'PUT'])
+def manage_product(id):
+    serializer = ProductSerializer(many=False)
+    if request.method == 'GET':
+        product = Product.query.get(id)
+        response_json = jsonify(
+            data=serializer.dump(product),
+            message=""
+        )
+        return response_json, 200
+
+
 
     
