@@ -22,7 +22,6 @@ def list_products():
 @bp_products.route('/api/product', methods=['POST'])
 def add_product():
     serializer = ProductSerializer(many=False)
-
     if request.method == 'POST':
         if request.is_json:
             name = request.json['name']
@@ -41,6 +40,7 @@ def add_product():
         else:
             return "the request data must be json type", 404
 
+
 @bp_products.route('/api/product/<id>', methods=['GET', 'DELETE', 'PUT'])
 def manage_product(id):
     serializer = ProductSerializer(many=False)
@@ -51,6 +51,31 @@ def manage_product(id):
             message=""
         )
         return response_json, 200
+    
+    elif request.method == 'PUT':
+        if request.is_json:
+            product = Product.query.get(id)
+
+            name = request.json['name']
+            description = request.json['description']
+            price = request.json['price']
+
+            product.name = name
+            product.description = description
+            product.price = price
+
+            db.session.commit()
+            response_json = jsonify(
+                data=serializer.dump(product),
+                message="product modified"
+            )
+            return response_json, 200
+        else:
+            return "the request data must be json type", 404
+
+
+
+
 
 
 

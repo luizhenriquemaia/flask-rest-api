@@ -46,3 +46,14 @@ def test_retrieve_product(client):
     response = client.get('/api/product/1')
     assert response.status_code == 200
     assert response.is_json
+
+def test_update_product(client):
+    serializer = ProductSerializer(many=False)
+    data = {
+        'name': 'black t-shirt',
+        'description': 'black t-shirt2 of nike',
+        'price': 400.12
+    }
+    response = client.put('/api/product/2', json=serializer.dump(data), headers={"Content-Type": "application/json"})
+    assert response.status_code == 200
+    assert response.is_json
