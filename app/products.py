@@ -64,7 +64,7 @@ def manage_product(id):
             product.description = description
             product.price = price
 
-            db.session.commit()
+            #db.session.commit()
             response_json = jsonify(
                 data=serializer.dump(product),
                 message="product modified"
@@ -72,6 +72,16 @@ def manage_product(id):
             return response_json, 200
         else:
             return "the request data must be json type", 404
+    
+    elif request.method == 'DELETE':
+        product = Product.query.get(id)
+        db.session.delete(product)
+        #db.session.commit()
+        response_json = jsonify(
+            data="",
+            message="product deleted"
+        )
+        return response_json, 204
 
 
 

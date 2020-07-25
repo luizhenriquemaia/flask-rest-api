@@ -54,6 +54,11 @@ def test_update_product(client):
         'description': 'black t-shirt2 of nike',
         'price': 400.12
     }
-    response = client.put('/api/product/2', json=serializer.dump(data), headers={"Content-Type": "application/json"})
+    response = client.put('/api/product/1', json=serializer.dump(data), headers={"Content-Type": "application/json"})
     assert response.status_code == 200
+    assert response.is_json
+
+def test_delete_product(client):
+    response = client.delete('/api/product/3')
+    assert response.status_code == 204
     assert response.is_json
