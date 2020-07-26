@@ -1,11 +1,13 @@
-from app import app, db
-from flask import Blueprint, request, jsonify, Response
-from .models import User
-from .serializer import UserSerializer
 import json
 from datetime import datetime, timedelta
-import jwt
 
+import jwt
+from flask import Blueprint, Response, jsonify, request
+
+from app import app, db
+
+from .models import User
+from .serializer import UserSerializer
 
 bp_authorization = Blueprint('authorization', __name__)
 
@@ -23,8 +25,8 @@ def register():
         first_name,
         last_name
     )
-    #db.session.add(new_user)
-    #db.session.commit()
+    db.session.add(new_user)
+    db.session.commit()
     response_json = jsonify(
         data=serializer.dump(new_user),
         message="user added"
@@ -37,28 +39,23 @@ def login():
     serializer = UserSerializer(many=False)
     email = request.json['email']
     password = request.json['password']
-
     user = User.query.filter_by(email=email).first()
     if user == None:
         return jsonify({
             "data": "",
             "message": "user not registered"
         }), 404
-
     if not user.verify_password(password):
         return jsonify({
             "data": "",
             "message": "incorrect credentials"
         }), 403
-    
     payload = {
         "id": user.id,
         "exp": datetime.utcnow() + timedelta(minutes=10)
     }
-    
     token = jwt.encode(payload, app.config['SECRET_KEY'])
-
     return jsonify({
-        "token": token.decode('utf-8'),
+        "token": token.decode('UTF-8'),
         "message": ""
     }), 200
