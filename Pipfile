@@ -15,6 +15,7 @@ flask-script = "*"
 pytest = "*"
 werkzeug = "*"
 pymysql = "*"
+pyjwt = "*"
 
 [requires]
 python_version = "3.7"

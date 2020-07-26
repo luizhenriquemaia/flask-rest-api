@@ -3,6 +3,8 @@ from flask import Blueprint, request, jsonify, Response
 from .models import User
 from .serializer import UserSerializer
 import json
+from datetime import datetime, timedelta
+import jwt
 
 
 bp_authorization = Blueprint('authorization', __name__)
@@ -11,26 +13,52 @@ bp_authorization = Blueprint('authorization', __name__)
 @app.route('/api/auth/register', methods=['POST'])
 def register():
     serializer = UserSerializer(many=False)
-    if request.method == 'POST':
-        email = request.json['email']
-        password = request.json['password']
-        first_name = request.json['first_name']
-        last_name = request.json['last_name']
-        new_user = User(
-            email,
-            password,
-            first_name,
-            last_name
-        )
-        #db.session.add(new_user)
-        #db.session.commit()
-        response_json = jsonify(
-            data=serializer.dump(new_user),
-            message="user added"
-        )
-        return response_json, 201
+    email = request.json['email']
+    password = request.json['password']
+    first_name = request.json['first_name']
+    last_name = request.json['last_name']
+    new_user = User(
+        email,
+        password,
+        first_name,
+        last_name
+    )
+    #db.session.add(new_user)
+    #db.session.commit()
+    response_json = jsonify(
+        data=serializer.dump(new_user),
+        message="user added"
+    )
+    return response_json, 201
 
 
 @app.route('/api/auth/login', methods=['POST'])
 def login():
-    pass
+    serializer = UserSerializer(many=False)
+    email = request.json['email']
+    password = request.json['password']
+
+    user = User.query.filter_by(email=email).first()
+    if user == None:
+        return jsonify({
+            "data": "",
+            "message": "user not registered"
+        }), 404
+
+    if not user.verify_password(password):
+        return jsonify({
+            "data": "",
+            "message": "incorrect credentials"
+        }), 403
+    
+    payload = {
+        "id": user.id,
+        "exp": datetime.utcnow() + timedelta(minutes=10)
+    }
+    
+    token = jwt.encode(payload, app.config['SECRET_KEY'])
+
+    return jsonify({
+        "token": token.decode('utf-8'),
+        "message": ""
+    }), 200
