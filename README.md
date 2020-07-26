@@ -27,6 +27,7 @@ $ pipenv install
 ```shell
 $ CREATE DATABASE system_verzel;
 ```
+- Run the mysql server;
 - Activate pipenv;
 > Inside the root of repository
 ```shell
