@@ -6,6 +6,8 @@
 - JWT authentication system;
 - Unit testing coverage.
 
+![Gif run tests api](https://github.com/luizhenriquemaia/system-verzel/raw/master/readme-media/pytest_example.gif "Gif run tests api")
+
 ---
 
 ## Installation
