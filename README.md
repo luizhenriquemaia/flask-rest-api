@@ -36,7 +36,6 @@ $ pipenv shell
 - Run the migrations.
 > Inside the pipenv shell
 ```shell
-$ python manage.py db migrate
 $ python manage.py db upgrade
 ```
 
@@ -56,6 +55,16 @@ $ python manage.py db upgrade
 @jwt_required
 ```
 - To get the jwt simply register and then login, the api will response you with the token string, which you can pass it as Authorization in the header of request;
+- If you want to do changes in models and data base structure
+> Inside the pipenv shell run to apply changes.
+```shell
+$ python manage.py db migrate
+```
+- To change the configurations of access to data base go to instance/config.py and change the 
+```python
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:root@localhost/system_verzel'
+```
+> where the root:root is username and password, localhost is the ip address and system_verzel is the name of database.
 - Have fun.
 
 ---
