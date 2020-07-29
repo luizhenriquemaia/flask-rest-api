@@ -42,23 +42,31 @@ $ python manage.py db upgrade
 ---
 
 ## Usage
-> To see the routes available 
-- Open the __init__.py file inside the folder "app" and search for blueprints;
-- You will see the names of the files that are imported as blueprint;
-- Open one of these files and search for the @app.route decorator, for example:
-```python
-@app.route('/api/auth/register', methods=['POST'])
+- To make requests, run the flask server;
+> Inside the pipenv shell
+```shell
+$ python run.py
 ```
-- With the route has the decorator @jwt_required it means that is a private route:
-```python
-@bp_products.route('/api/show-products', methods=['GET'])
-@jwt_required
-```
+
+### Routes
+#### Public routes
+ - /api/auth/register -> Method = POST
+ - /api/auth/login -> Method = POST
+
+#### Private routes
+- /api/show-products -> Method = GET
+- /api/product -> Method = POST
+- /api/product/id -> Methods = GET, DELETE, PUT
+
+### JWT
 - To get the jwt simply register and then login, the api will response you with the token string, which you can pass it as Authorization in the header of request;
-- If you want to do changes in models and data base structure
-> Inside the pipenv shell run to apply changes.
+
+### General
+- If you want to do changes in models/database structure
+> Inside the pipenv shell run to make migrations and apply them.
 ```shell
 $ python manage.py db migrate
+$ python manage.py db upgrade
 ```
 - To change the configurations of access to data base go to instance/config.py and change the 
 ```python
