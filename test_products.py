@@ -79,7 +79,7 @@ def test_show_products_without_token(client):
         add_product_for_test()
         response = client.get('/api/show-products')
         delete_product_of_test()
-        assert response.status_code == 403
+        assert response.status_code == 400
 
 
 def test_add_product(client):
@@ -115,7 +115,7 @@ def test_add_product_without_token(client):
             "Content-Type": "application/json"
         })
         delete_product_of_test()
-        assert response.status_code == 403
+        assert response.status_code == 400
         assert response.is_json
 
 
@@ -141,7 +141,7 @@ def test_retrieve_product_without_token(client):
         id_product = Product.query.filter_by(name="product_test_1").first().id
         response = client.get(f'/api/product/{id_product}')
         delete_product_of_test()
-        assert response.status_code == 403
+        assert response.status_code == 400
         assert response.is_json
 
 
@@ -178,7 +178,7 @@ def test_update_product_without_token(client):
         }
         response = client.put(f'/api/product/{id_product}', json=json_data, headers={"Content-Type": "application/json"})
         delete_product_of_test()
-        assert response.status_code == 403
+        assert response.status_code == 400
         assert response.is_json
 
 
@@ -203,5 +203,5 @@ def test_delete_product_without_token(client):
         id_product = Product.query.filter_by(name="product_test_1").first().id
         response = client.delete(f'/api/product/{id_product}')
         delete_product_of_test()
-        assert response.status_code == 403
+        assert response.status_code == 400
         assert response.is_json

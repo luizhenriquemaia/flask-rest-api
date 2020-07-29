@@ -44,12 +44,12 @@ def login():
         return jsonify({
             "data": "",
             "message": "user not registered"
-        }), 404
+        }), 400
     if not user.verify_password(password):
         return jsonify({
             "data": "",
             "message": "incorrect credentials"
-        }), 403
+        }), 400
     payload = {
         "id": user.id,
         "exp": datetime.utcnow() + timedelta(minutes=10)

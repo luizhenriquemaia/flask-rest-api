@@ -44,7 +44,7 @@ def add_product(current_user):
             return jsonify(
                 data="",
                 message="the request data must be json type"
-            ) , 404
+            ) , 400
 
 
 @bp_products.route('/api/product/<id>', methods=['GET', 'DELETE', 'PUT'])
@@ -78,7 +78,7 @@ def manage_product(id, current_user):
             return jsonify(
                 data="",
                 message="the request data must be json type"
-            ) , 404
+            ) , 400
     
     elif request.method == 'DELETE':
         product = Product.query.get(id)

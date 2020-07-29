@@ -12,14 +12,14 @@ def jwt_required(f):
             token = request.headers['Authorization']
         if not token:
             return jsonify({
-                "error": "forbidden"
-            }), 403
+                "error": "no token identified"
+            }), 400
         try:
             decoded = jwt.decode(token, current_app.config['SECRET_KEY'], algorithms=['HS256'])
             current_user = User.query.get(decoded['id'])
         except:
             return jsonify({
                 "error": "invalid token"
-            }), 403
+            }), 401
         return f(current_user=current_user, *args, **kwargs)
     return wrapper

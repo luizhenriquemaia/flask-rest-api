@@ -73,7 +73,7 @@ def test_wrong_password_login(client):
         }
         response = client.post('/api/auth/login', json=json_data, headers={"Content-Type": "application/json"})
         delete_user_of_test()
-        assert response.status_code == 403
+        assert response.status_code == 400
         assert response.is_json
 
 
@@ -83,5 +83,5 @@ def test_user_not_register_login(client):
             "email": "user-not-registered@gmail.com",
             "password": "12345"}
         response = client.post('/api/auth/login', json=json_data, headers={"Content-Type": "application/json"})
-        assert response.status_code == 404
+        assert response.status_code == 400
         assert response.is_json
