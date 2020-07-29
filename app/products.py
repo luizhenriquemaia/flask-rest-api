@@ -50,45 +50,51 @@ def add_product(current_user):
 @bp_products.route('/api/product/<id>', methods=['GET', 'DELETE', 'PUT'])
 @jwt_required
 def manage_product(id, current_user):
-    serializer = ProductSerializer(many=False)
-    if request.method == 'GET':
-        product = Product.query.get(id)
-        response_json = jsonify(
-            data=serializer.dump(product),
-            message=""
-        )
-        return response_json, 200
-    
-    elif request.method == 'PUT':
-        if request.is_json:
+    if Product.query.get(id):
+        serializer = ProductSerializer(many=False)
+        if request.method == 'GET':
             product = Product.query.get(id)
-            name = request.json['name']
-            description = request.json['description']
-            price = request.json['price']
-            product.name = name
-            product.description = description
-            product.price = price
-            db.session.commit()
             response_json = jsonify(
                 data=serializer.dump(product),
-                message="product modified"
+                message=""
             )
             return response_json, 200
-        else:
-            return jsonify(
+        
+        elif request.method == 'PUT':
+            if request.is_json:
+                product = Product.query.get(id)
+                name = request.json['name']
+                description = request.json['description']
+                price = request.json['price']
+                product.name = name
+                product.description = description
+                product.price = price
+                db.session.commit()
+                response_json = jsonify(
+                    data=serializer.dump(product),
+                    message="product modified"
+                )
+                return response_json, 200
+            else:
+                return jsonify(
+                    data="",
+                    message="the request data must be json type"
+                ) , 400
+        
+        elif request.method == 'DELETE':
+            product = Product.query.get(id)
+            db.session.delete(product)
+            db.session.commit()
+            response_json = jsonify(
                 data="",
-                message="the request data must be json type"
-            ) , 400
-    
-    elif request.method == 'DELETE':
-        product = Product.query.get(id)
-        db.session.delete(product)
-        db.session.commit()
-        response_json = jsonify(
+                message="product deleted"
+            )
+            return response_json, 204
+    else:
+        return jsonify(
             data="",
-            message="product deleted"
-        )
-        return response_json, 204
+            message="no product founded"
+        ) , 400
 
 
 

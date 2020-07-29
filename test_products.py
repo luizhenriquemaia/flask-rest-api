@@ -145,6 +145,22 @@ def test_retrieve_product_without_token(client):
         assert response.is_json
 
 
+def test_retrieve_product_that_dont_exists(client):
+    with app.app_context():
+        new_user = add_user_for_test()
+        token = login_user_for_test(new_user, client)
+        add_product_for_test()
+        id_product = Product.query.filter_by(name="product_test_1").first().id
+        response = client.get(f'/api/product/{id_product+1}', headers={
+            "Authorization": token
+        })
+        delete_product_of_test()
+        delete_user_of_test()
+        assert response.status_code == 400
+        assert json.loads(response.get_data())['data'] == ""
+        assert response.is_json
+
+
 def test_update_product(client):
     with app.app_context():
         new_user = add_user_for_test()
