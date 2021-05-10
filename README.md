@@ -1,5 +1,5 @@
-# system-verzel
-> Api for the practical test of a selective process from Verzel.
+# Flask Rest API Example
+> Api for the practical test of a selective process.
 
 **This has among other things**
 - Public and private routes;
