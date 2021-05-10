@@ -14,7 +14,7 @@
 
 ### Clone
 
-- Clone this repo to your local machine using `https://github.com/luizhenriquemaia/system-verzel.git`.
+- Clone this repo to your local machine using `https://github.com/luizhenriquemaia/flask-rest-api.git`.
 
 ### Setup
 
